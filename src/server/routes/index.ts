@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/users", (req, res) => {
-  return res.status(StatusCodes.UNAUTHORIZED).json(req.body);
+  return res.status(StatusCodes.ACCEPTED).json(req.body);
 });
 
 export { router };
