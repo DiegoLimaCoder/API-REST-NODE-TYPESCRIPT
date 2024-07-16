@@ -13,6 +13,7 @@ export default [
       // "linebreak-style": ["error", "unix"],
       quotes: ["error", "double"],
       semi: ["error", "always"],
+      "@typescript-eslint/ban-types": "Off",
     },
   },
 ];
