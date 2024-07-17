@@ -4,25 +4,31 @@ import * as yup from "yup";
 
 interface ICidade {
   nome: string;
+  estado: string;
 }
 
 const validationBody: yup.Schema<ICidade> = yup.object().shape({
   nome: yup.string().required().min(3),
+  estado: yup.string().required().min(3),
 });
 
 export const create = async (req: Request<{}, {}, ICidade>, res: Response) => {
   let validateData: ICidade | undefined = undefined;
-  
+
   try {
-    validateData = await validationBody.validate(req.body);
+    validateData = await validationBody.validate(req.body, {
+      abortEarly: false,
+    });
   } catch (error) {
     const yupError = error as yup.ValidationError;
+    const errors: Record<string, string> = {};
 
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      errors: {
-        default: yupError.message,
-      },
+    yupError.inner.forEach((err) => {
+      if (!err.path) return;
+      errors[err.path] = err.message;
     });
+
+    return res.status(StatusCodes.BAD_REQUEST).json({ errors });
   }
 
   return res.status(StatusCodes.ACCEPTED).send("Created !");
