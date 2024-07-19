@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
 
 router.post(
   "/cidade",
-  CidadeController.createBodyValidator,
+  CidadeController.createValidation,
   CidadeController.create
 );
 
